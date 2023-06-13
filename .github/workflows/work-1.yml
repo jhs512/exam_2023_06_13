@@ -1,0 +1,22 @@
+name: 'work-1'
+on:
+  push:
+    paths:
+      - '.github/workflows/**'
+      - 'src/**'
+      - 'build.gradle'
+      - 'Dockerfile'
+      - 'readme.md'
+    branches:
+      - 'main'
+jobs:
+  deploy:
+    name: 쿠버네티스 배포
+    runs-on: ubuntu-latest
+    steps:
+      - uses: azure/k8s-set-context@v2
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+      - run: |
+          kubectl get all
